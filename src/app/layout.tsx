@@ -3,7 +3,7 @@ import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
 
 import classNames from "classnames";
-
+import type { Metadata } from "next";
 import {
   Background,
   Column,
@@ -103,3 +103,11 @@ export default async function RootLayout({
     </Flex>
   );
 }
+
+export const metadata: Metadata = {
+title: {
+default: "Logan Waller",
+template: "%s | Logan",
+},
+description: "Logan Waller's Portfolio",
+};

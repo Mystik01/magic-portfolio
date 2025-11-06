@@ -8,7 +8,6 @@ export {
   baseURL,
   fonts,
   style,
-  schema,
   sameAs,
   socialSharing,
   effects,
