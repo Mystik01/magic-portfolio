@@ -4,7 +4,10 @@ import "@/resources/custom.css";
 
 import classNames from "classnames";
 import type { Metadata } from "next";
+
+//Vercel
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import {
   Background,
@@ -98,6 +101,7 @@ export default async function RootLayout({
             <Flex horizontal="center" fillWidth minHeight="0">
               {children}
               <Analytics />
+              <SpeedInsights />
             </Flex>
           </Flex>
           <Footer />
