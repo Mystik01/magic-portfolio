@@ -170,7 +170,12 @@ export const Navbar: React.FC = () => {
               {display.themeSwitcher && (
                 <>
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />
-                  <ThemeToggle />
+                  <Row s={{ hide: true }}>
+                    <ThemeToggle />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ThemeToggle size="l" className={styles.mobileNavIcon} />
+                  </Row>
                 </>
               )}
             </Row>

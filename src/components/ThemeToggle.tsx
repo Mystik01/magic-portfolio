@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Row, ToggleButton, useTheme } from "@once-ui-system/core";
 
-export const ThemeToggle: React.FC = () => {
+interface ThemeToggleProps {
+  className?: string;
+  size?: "s" | "m" | "l";
+}
+
+export const ThemeToggle = ({ className, size }: ThemeToggleProps) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [currentTheme, setCurrentTheme] = useState("light");
@@ -11,11 +16,21 @@ export const ThemeToggle: React.FC = () => {
   useEffect(() => {
     setMounted(true);
     setCurrentTheme(document.documentElement.getAttribute("data-theme") || "light");
+    
+    // Listen to theme changes
+    const updateTheme = () => {
+      setCurrentTheme(document.documentElement.getAttribute("data-theme") || "light");
+    };
+    
+    // Use MutationObserver to watch for theme attribute changes
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    
+    return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    setCurrentTheme(document.documentElement.getAttribute("data-theme") || "light");
-  }, [theme]);
 
   const icon = currentTheme === "dark" ? "light" : "dark";
   const nextTheme = currentTheme === "light" ? "dark" : "light";
@@ -25,6 +40,8 @@ export const ThemeToggle: React.FC = () => {
       prefixIcon={icon}
       onClick={() => setTheme(nextTheme)}
       aria-label={`Switch to ${nextTheme} mode`}
+      size={size}
+      className={className}
     />
   );
 };
