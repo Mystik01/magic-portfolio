@@ -1,25 +1,30 @@
-'use client';
+'use client'; 
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { Analytics } from "@vercel/analytics/next";
-
-// Assume you import your Vercel Analytics 'track' function here
+// 👈 The crucial import for firing tracking events
+import { track } from '@vercel/analytics/react'; 
 
 export default function Tracker() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // This code only runs on the client side after hydration
+    // 1. Get the parameters from the URL
     const source = searchParams.get('utm_source');
     const campaign = searchParams.get('utm_campaign');
 
+    // 2. Check for the specific CV tracking parameters
     if (source === 'cv' && campaign) {
-      // FIRE YOUR CUSTOM TRACK EVENT HERE
-      // e.g., track('CV_Click', { source: source, campaign: campaign });
-      console.log(`Tracking Event Fired: CV Click from ${campaign}`); 
+      // 3. Fire the custom event
+      // This event will appear in the "Events" panel in your Vercel Analytics Dashboard
+      track('CV_Link_Click', {
+        source: source,
+        campaign: campaign,
+        // Optional: Include the medium as well
+        medium: searchParams.get('utm_medium') || 'unknown',
+      });
+      console.log(`Vercel Tracking Event Fired: CV Click for campaign: ${campaign}`);
     }
-  }, [searchParams]); // Re-run effect if URL query changes
+  }, [searchParams]);
 
-
-  return null; // This component renders nothing
+  return null; // This functional component renders nothing to the DOM
 }
