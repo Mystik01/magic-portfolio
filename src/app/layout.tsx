@@ -6,26 +6,18 @@ import classNames from "classnames";
 import type { Metadata } from "next";
 
 //Vercel
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 //Google
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager } from "@next/third-parties/google";
 
-import {
-  Background,
-  Column,
-  Flex,
-  Meta,
-  RevealFx,
-} from "@once-ui-system/core";
+import { Background, Column, Flex, Meta, RevealFx } from "@once-ui-system/core";
 import type { opacity, SpacingToken } from "@once-ui-system/core";
-import { Footer, Providers, NavOnHomeOnly } from "@/components";
+import { Footer, Providers, NavOnHomeOnly, Tracker } from "@/components";
 import ThemeInit from "@/components/ThemeInit";
 import { effects, fonts } from "@/resources";
-
-
+import { Suspense } from "react";
 
 export default async function RootLayout({
   children,
@@ -33,7 +25,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-  <Flex
+    <Flex
       suppressHydrationWarning
       as="html"
       lang="en"
@@ -42,7 +34,7 @@ export default async function RootLayout({
         fonts.heading.variable,
         fonts.body.variable,
         fonts.label.variable,
-        fonts.code.variable,
+        fonts.code.variable
       )}
     >
       <GoogleTagManager gtmId="G-41B2RMQBVY" />
@@ -104,9 +96,12 @@ export default async function RootLayout({
           <NavOnHomeOnly />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
-              {children}
               <Analytics />
               <SpeedInsights />
+              <Suspense fallback={null}>
+                <Tracker />
+              </Suspense>
+              {children}
             </Flex>
           </Flex>
           <Footer />
@@ -117,9 +112,9 @@ export default async function RootLayout({
 }
 
 export const metadata: Metadata = {
-title: {
-default: "Logan Waller",
-template: "%s | Logan",
-},
-description: "Logan Waller's Portfolio",
+  title: {
+    default: "Logan Waller",
+    template: "%s | Logan",
+  },
+  description: "Logan Waller's Portfolio",
 };

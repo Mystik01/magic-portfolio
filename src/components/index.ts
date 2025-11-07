@@ -6,3 +6,4 @@ export { ScrollToHash } from "@/components/ScrollToHash";
 export { ThemeToggle } from "@/components/ThemeToggle";
 export { Popup } from "@/components/Popup/Popup";
 export { NavOnHomeOnly } from "@/components/NavOnHomeOnly";
+export { default as Tracker } from "@/components/Tracker";
