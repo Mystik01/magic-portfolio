@@ -10,7 +10,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 //Google
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import { Background, Column, Flex, Meta, RevealFx } from "@once-ui-system/core";
 import type { opacity, SpacingToken } from "@once-ui-system/core";
@@ -19,11 +19,8 @@ import ThemeInit from "@/components/ThemeInit";
 import { effects, fonts } from "@/resources";
 import { Suspense } from "react";
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({children,}: Readonly<{children: React.ReactNode;}>){
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
   return (
     <Flex
       suppressHydrationWarning
@@ -37,7 +34,6 @@ export default async function RootLayout({
         fonts.code.variable
       )}
     >
-      <GoogleTagManager gtmId="G-41B2RMQBVY" />
       {/* ThemeInit runs client-side to initialize theme/data attributes */}
       <Providers>
         <ThemeInit />
@@ -102,6 +98,7 @@ export default async function RootLayout({
                 <Tracker />
               </Suspense>
               {children}
+              {gaId && <GoogleAnalytics gaId={gaId} />}
             </Flex>
           </Flex>
           <Footer />
