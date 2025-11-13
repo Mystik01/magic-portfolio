@@ -1,7 +1,6 @@
 import mdx from "@next/mdx";
 import { withBotId } from 'botid/next/config';
-const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
-
+import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 const withMDX = mdx({
   extension: /\.mdx?$/,
   options: {},
@@ -30,12 +29,15 @@ const nextConfig = {
 
 
 
-export default (phase, { defaultConfig }) => {
+export default async (phase, { defaultConfig }) => {
+  // ⚠️ CRITICAL CORRECTION: Use the imported constant, not the hardcoded string
   if (phase === PHASE_DEVELOPMENT_SERVER) {
-    // 3. Conditional loading of dotenv for local dev only
-    require('dotenv').config({ path: './.env.local' });
+    // Use dynamic import for dotenv
+    const dotenv = await import('dotenv');
+    // ⚠️ Check your path: './.env.env.local' looks like a typo, should be './.env.local'
+    dotenv.config({ path: './.env.local' }); 
   }
 
-  // 4. Apply all wrappers to the final config object, regardless of phase
+  // Apply all wrappers
   return withBotId(withMDX(nextConfig));
 };
